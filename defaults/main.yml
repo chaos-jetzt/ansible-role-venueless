@@ -1,0 +1,9 @@
+---
+venueless_uid: "15371"
+venueless_data_path: "/var/venueless-data/"
+venueless_config_path: "/etc/venueless/"
+
+#venueless_database_name
+#venueless_database_user
+#venueless_database_password
+#venueless_redis_password

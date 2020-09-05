@@ -1,0 +1,16 @@
+[database]
+backend=postgresql
+name={{ venueless_database_name }}
+user={{ venueless_database_user }}
+; Replace with the password you chose above
+password={{ venueless_database_password }}
+; In most docker setups, 172.17.0.1 is the address of the docker host. Adjuts
+; this to wherever your database is running, e.g. the name of a linked container
+host=172.17.0.1
+
+[redis]
+; In most docker setups, 172.17.0.1 is the address of the docker host. Adjuts
+; this to wherever your database is running, e.g. the name of a linked container
+host=172.17.0.1
+; Replace with the password you chose above
+auth={{ venueless_redis_password }}

@@ -1,0 +1,41 @@
+---
+- name: Create venueless directories
+  file:
+    state: directory
+    owner: "{{ venueless_uid }}"
+    group: "{{ venueless_uid }}"
+    path: "{{ item }}"
+  loop:
+    - "{{ venueless_config_path }}"
+    - "{{ venueless_data_path }}"
+
+- name: Copy venueless config file
+  template:
+    src: "venueless.cfg.j2"
+    dest: "{{ venueless_config_path }}/venueless.cfg"
+    owner: "{{ venueless_uid }}"
+    group: "{{ venueless_uid }}"
+    mode: "0700"
+  notify: "Restart venueless systemd service"
+
+- name: Pull venueless docker image
+  docker_image:
+    name: "venueless/venueless:latest"
+    source: pull
+
+- name: Template venueless systemd service
+  template:
+    src: "venueless.service.j2"
+    dest: "/etc/systemd/system/venueless.service"
+
+- name: Enable and start venueless systemd service
+  systemd:
+    name: "venueless.service"
+    daemon_reload: yes
+    enabled: yes
+    state: started
+
+- name: Add cronjob to update venueless BBB loadbalancer cost
+  cron:
+    name: "venueless update BBB loadbalancer cost"
+    job: "docker exec venueless.service venueless bbb_update_cost"
