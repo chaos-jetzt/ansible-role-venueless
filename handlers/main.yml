@@ -1,5 +1,5 @@
 ---
 - name: Restart venueless systemd service
   systemd:
-    name: "venueless.serice"
+    name: "venueless.service"
     state: restarted
